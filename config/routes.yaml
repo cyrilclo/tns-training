@@ -1,6 +1,7 @@
-#controllers:
-#    resource: ../src/Controller/
-#    type: annotation
+get_pokemon_names:
+    path: /api/pokemon
+    controller: App\Infrastructure\Controller\GetPokemonController
+    methods: GET
 
 kernel:
     resource: ../src/Kernel.php

@@ -2,6 +2,8 @@ version: "3.9"
 
 services:
   webserver:
+    working_dir: /var/www/training
+    container_name: webserver
     build:
       context: ./docker/apache/
       args:
