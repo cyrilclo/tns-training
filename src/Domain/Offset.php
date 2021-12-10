@@ -8,7 +8,7 @@ final class Offset
 {
     public function __construct(public readonly int $offset)
     {
-        if (0 < $this->offset) {
+        if ($this->offset < 0) {
             throw OffsetException::withValue($this->offset);
         }
     }

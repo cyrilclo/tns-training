@@ -7,6 +7,7 @@ namespace App\Infrastructure\Controller;
 use App\Application\Dto\GetPokemonRequest;
 use App\Application\Service\GetPokemonService;
 use App\Domain\LimitException;
+use App\Domain\OffsetException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,9 +27,8 @@ final class GetPokemonController
             );
 
             return new JsonResponse(['results' => $response->pokemons]);
-        } catch (LimitException $e){
+        } catch (LimitException | OffsetException $e) {
             return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
-
     }
 }

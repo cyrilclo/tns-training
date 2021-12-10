@@ -11,7 +11,7 @@ final class GetPokemonFeature extends TestCase
     /** @test */
     public function itShouldRetrieveAPokemon(): void
     {
-        $response        = $this->get('/api/pokemon?limit=1');
+        $response        = $this->get('/api/pokemon?limit=1&offset=0');
         $decodedResponse = json_decode($response->getContent(), true);
 
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
@@ -26,5 +26,15 @@ final class GetPokemonFeature extends TestCase
 
         self::assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         self::assertSame(sprintf("The value %d is not a valid limit", $limit), $response->getContent());
+    }
+
+    /** @test */
+    public function itShouldRetrieveAOffsetExceptionWhenNoOffset(): void
+    {
+        $offset = -1;
+        $response        = $this->get(sprintf('/api/pokemon?offset=%d', $offset));
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        self::assertSame(sprintf("The value %d is not a valid offset", $offset), $response->getContent());
     }
 }
