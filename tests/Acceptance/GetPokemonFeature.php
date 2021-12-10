@@ -12,7 +12,9 @@ final class GetPokemonFeature extends TestCase
     public function itShouldRetrieveAPokemon(): void
     {
         $response = $this->get('/api/pokemon');
+        $decodedResponse = json_decode($response->getContent(), true);
 
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
+        self::assertNotEmpty($decodedResponse['results']);
     }
 }

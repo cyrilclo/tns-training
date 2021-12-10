@@ -4,12 +4,25 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Application\Dto\GetPokemonRequest;
+use App\Application\Service\GetPokemonService;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 final class GetPokemonController
 {
-    public function __invoke(): Response
+    public function __construct(private GetPokemonService $service) {}
+
+    public function __invoke(Request $request): Response
     {
-        return new Response('everything is good');
+        $response = $this->service->run(
+            new GetPokemonRequest(
+                $request->query->get('limit', 20),
+                $request->query->get('offset', 0)
+            )
+        );
+
+        return new JsonResponse(['results' => $response->pokemons]);
     }
 }
